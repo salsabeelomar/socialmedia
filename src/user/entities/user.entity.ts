@@ -46,7 +46,6 @@ export class User extends Model {
 
   @Column({
     type: DataType.DATEONLY,
-    allowNull: false,
   })
   deleteBy: Date;
 }

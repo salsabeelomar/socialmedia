@@ -48,7 +48,6 @@ export class Comment extends Model {
 
   @Column({
     type: DataType.DATEONLY,
-    allowNull: false,
   })
   deleteBy: Date;
 }
