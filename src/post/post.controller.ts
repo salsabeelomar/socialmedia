@@ -24,9 +24,9 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @HttpCode(HttpStatus.CREATED)
   @UsePipes(new ValidationPipe())
   @Post('')
+  @HttpCode(HttpStatus.CREATED)
   async addPost(@Body() { content }: PostType, @Request() req) {
     return await this.postService.addPost(content, req);
   }
@@ -37,14 +37,15 @@ export class PostController {
     return await this.postService.paginationPost(page);
   }
 
-  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':postId')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async deletePost(
     @Param('postId', ParseIntPipe) postId: number,
     @Request() req,
   ) {
     return await this.postService.deletePost(postId, req);
   }
+
   @Put(':id')
   async updatePost(
     @Param('id', ParseIntPipe) id: number,

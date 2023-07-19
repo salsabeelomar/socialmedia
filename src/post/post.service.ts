@@ -80,19 +80,26 @@ export class PostService {
     }
   }
   async updatePost(content: string, postId: number, req) {
-    const { id } = req.user;
-    const updatedPost = await this.postRepository.update(
-      {
-        content,
-      },
-      {
-        returning: ['content', 'updatedAt', 'id'],
-        where: {
-          userId: id,
-          id: postId,
+    try {
+      const { id } = req.user;
+
+      const updatedPost = await this.postRepository.update(
+        {
+          content,
         },
-      },
-    );
-    return updatedPost;
+        {
+          where: {
+            userId: id,
+            id: postId,
+          },
+        },
+      );
+      if (updatedPost[0])
+        return {
+          message: 'Updated Successfully ',
+        };
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
