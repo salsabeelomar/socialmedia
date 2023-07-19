@@ -6,7 +6,6 @@ import {
   Request,
 } from '@nestjs/common';
 import { Post } from './entities/post.entity';
-import { PostType } from './dto/post.dto';
 import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
@@ -80,7 +79,20 @@ export class PostService {
       throw new InternalServerErrorException(error);
     }
   }
-  async updatePost() {
-    // await this.postRepository.update();
+  async updatePost(content: string, postId: number, req) {
+    const { id } = req.user;
+    const updatedPost = await this.postRepository.update(
+      {
+        content,
+      },
+      {
+        returning: ['content', 'updatedAt', 'id'],
+        where: {
+          userId: id,
+          id: postId,
+        },
+      },
+    );
+    return updatedPost;
   }
 }

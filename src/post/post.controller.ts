@@ -36,7 +36,7 @@ export class PostController {
   async paginationPost(@Query() { page }: { page: number }) {
     return await this.postService.paginationPost(page);
   }
-  
+
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':postId')
   async deletePost(
@@ -45,8 +45,12 @@ export class PostController {
   ) {
     return await this.postService.deletePost(postId, req);
   }
-  @Put('')
-  async updatePost(@Query() { content }: { content: string }) {
-    return await this.postService.updatePost();
+  @Put(':id')
+  async updatePost(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('content') content: string,
+    @Request() req,
+  ) {
+    return await this.postService.updatePost(content, id, req);
   }
 }
