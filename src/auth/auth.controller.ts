@@ -1,6 +1,8 @@
 import {
   Body,
   Controller,
+  HttpCode,
+  HttpStatus,
   Post,
   UsePipes,
   ValidationPipe,
@@ -11,12 +13,15 @@ import { SignInType, SignUpType } from './dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @HttpCode(HttpStatus.OK)
   @UsePipes(new ValidationPipe())
   @Post('sign-in')
   signIn(@Body() user: SignInType) {
     console.log(user);
     return this.authService.signIn(user);
   }
+  @HttpCode(HttpStatus.CREATED)
   @UsePipes(new ValidationPipe())
   @Post('sign-up')
   signup(@Body() userInfo: SignUpType) {

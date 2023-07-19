@@ -11,6 +11,8 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { PostType } from './dto/post.dto';
@@ -21,12 +23,14 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @UsePipes(new ValidationPipe())
   @Post('')
   async addPost(@Body() { content }: PostType, @Request() req) {
     return await this.postService.addPost(content, req);
   }
 
+  @HttpCode(HttpStatus.OK)
   @Get('')
   async paginationPost(@Query() { page }: { page: number }) {
     return await this.postService.paginationPost(page);
