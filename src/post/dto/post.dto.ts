@@ -3,10 +3,10 @@ import { IsString, IsNotEmpty, MaxLength } from 'class-validator';
 export class PostType {
   @IsString()
   @MaxLength(255, {
-    message: 'Content is too long',
+    message: 'content is too long',
   })
   @IsNotEmpty({
-    message: 'Content is null ',
+    message: 'content is null ',
   })
-  Content: string;
+  content: string;
 }

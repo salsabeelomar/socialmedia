@@ -24,13 +24,17 @@ export class AuthService {
     const userEmail = await this.userRepo.findOne({
       where: { email: user.email },
     });
+
     if (!userEmail)
       throw new UnauthorizedException('Invalid Email or password');
+
     const userData = await this.userRepo.findOne({
       attributes: ['id', 'username', 'password', 'birthday', 'phoneNumber'],
       where: { email: user.email },
     });
+
     const isMatch = await bcrypt.compare(user.password, userData.password);
+    
     if (!isMatch) throw new BadRequestException('Invalid Email or password');
 
     const payload = {

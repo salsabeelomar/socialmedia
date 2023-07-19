@@ -11,6 +11,7 @@ import { SignInType, SignUpType } from './dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+  @UsePipes(new ValidationPipe())
   @Post('sign-in')
   signIn(@Body() user: SignInType) {
     console.log(user);
