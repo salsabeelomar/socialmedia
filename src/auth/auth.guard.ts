@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -18,7 +17,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext) {
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization?.split('Bearer ')[1];
 
     if (!token) throw new UnauthorizedException('You must Login');
