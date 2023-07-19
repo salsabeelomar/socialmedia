@@ -2,6 +2,7 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  BadRequestException,
   Request,
 } from '@nestjs/common';
 import { Post } from './entities/post.entity';
@@ -46,8 +47,26 @@ export class PostService {
     });
     return posts;
   }
-  async deletePost() {
-    await this.postRepository.destroy();
+  async deletePost(postId: number, request) {
+    const { id } = request.user;
+
+    try {
+      const deletedPost = await this.postRepository.destroy({
+        where: {
+          userId: id,
+          id: postId,
+        },
+      });
+
+      if (!deletedPost) throw new BadRequestException('Post not exist');
+
+      return {
+        message: ' Deleted Successfully',
+      };
+      
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
   async updatePost() {
     // await this.postRepository.update();

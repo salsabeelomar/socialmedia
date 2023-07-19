@@ -12,6 +12,7 @@ import {
   ValidationPipe,
   UseGuards,
   HttpCode,
+  ParseIntPipe,
   HttpStatus,
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -35,10 +36,14 @@ export class PostController {
   async paginationPost(@Query() { page }: { page: number }) {
     return await this.postService.paginationPost(page);
   }
-
-  @Delete('')
-  async deletePost(@Param() { postId }: { postId: number }) {
-    return await this.postService.deletePost();
+  
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':postId')
+  async deletePost(
+    @Param('postId', ParseIntPipe) postId: number,
+    @Request() req,
+  ) {
+    return await this.postService.deletePost(postId, req);
   }
   @Put('')
   async updatePost(@Query() { content }: { content: string }) {
