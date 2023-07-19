@@ -32,7 +32,7 @@ export class PostService {
   async paginationPost(page: number): Promise<Post[]> {
     const offset = (page - 1) * 4;
     const posts = await this.postRepository.findAll<Post>({
-      attributes: { exclude: ['deleteBy', 'deletedAt','userId'] },
+      attributes: { exclude: ['deleteBy', 'deletedAt', 'userId'] },
       include: [
         {
           model: User,
@@ -47,9 +47,9 @@ export class PostService {
     return posts;
   }
   async deletePost() {
-    await this.postRepository.create();
+    await this.postRepository.destroy();
   }
   async updatePost() {
-    await this.postRepository.create();
+    // await this.postRepository.update();
   }
 }
