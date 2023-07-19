@@ -20,7 +20,10 @@ export class AuthService {
   generateToken(payload): string {
     return this.jwt.sign(payload);
   }
-  async signIn(user: SignInType) {
+  async signIn(user: SignInType): Promise<{
+    user: User;
+    token: string;
+  }> {
     const userEmail = await this.userRepo.findOne({
       where: { email: user.email },
     });
@@ -34,7 +37,7 @@ export class AuthService {
     });
 
     const isMatch = await bcrypt.compare(user.password, userData.password);
-    
+
     if (!isMatch) throw new BadRequestException('Invalid Email or password');
 
     const payload = {
@@ -51,7 +54,11 @@ export class AuthService {
       token,
     };
   }
-  async signUp(user: SignUpType) {
+  async signUp(user: SignUpType): Promise<{
+    message: string;
+    user: User;
+    token: string;
+  }> {
     const userEmail = await this.userRepo.findOne({
       where: { email: user.email },
     });

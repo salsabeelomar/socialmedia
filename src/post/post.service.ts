@@ -15,7 +15,15 @@ export class PostService {
     @Inject('POSTS_REPOSITORY') private postRepository: typeof Post,
   ) {}
 
-  async addPost(content: string, @Request() req) {
+  async addPost(
+    content: string,
+    @Request() req,
+  ): Promise<{
+    post: {
+      newPost: Post;
+      username: any;
+    };
+  }> {
     try {
       const { id, username } = req.user;
       const newPost = await this.postRepository.create<Post>({
@@ -47,7 +55,12 @@ export class PostService {
     });
     return posts;
   }
-  async deletePost(postId: number, request) {
+  async deletePost(
+    postId: number,
+    request,
+  ): Promise<{
+    message: string;
+  }> {
     const { id } = request.user;
 
     try {
@@ -63,7 +76,6 @@ export class PostService {
       return {
         message: ' Deleted Successfully',
       };
-      
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
