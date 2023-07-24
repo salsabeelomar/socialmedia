@@ -1,0 +1,4 @@
+export const ProviderConstants = {
+  POST_REPOSITORY: 'POSTS_REPOSITORY',
+  USER_REPOSITORY: 'USERS_REPOSITORY',
+};
