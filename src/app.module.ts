@@ -9,6 +9,8 @@ import { UserModule } from './modules/user/user.module';
 import { INTERCEPTOR } from './common/constant';
 import config from 'config/index';
 import { ConfigModule } from '@nestjs/config';
+import { CommentService } from './modules/comment/comment.service';
+import { CommentModule } from './modules/comment/comment.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     PostModule,
     UserModule,
+    CommentModule
   ],
   controllers: [AppController],
   providers: [

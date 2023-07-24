@@ -1,15 +1,11 @@
-import {
-  Inject,
-  Injectable,
-  InternalServerErrorException,
-  BadRequestException,
-  Request,
-} from '@nestjs/common';
+import { Inject, Injectable, BadRequestException } from '@nestjs/common';
+import { Transaction } from 'sequelize';
+
 import { Post } from './entities/post.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 import { ProviderConstants } from 'src/common/constant';
-import { Transaction } from 'sequelize';
 import { CheckExisting } from 'src/common/utils/CheckExisting';
+import { Comment } from '../comment/entities/comment.entity';
 
 @Injectable()
 export class PostService {
@@ -54,6 +50,11 @@ export class PostService {
           attributes: ['username', 'id', 'email'],
           required: true,
         },
+        {
+          model: Comment,
+          attributes: ['id', 'comment'],
+          required: true,
+        },
       ],
       offset,
       limit: 4,
@@ -75,10 +76,9 @@ export class PostService {
     );
     CheckExisting(deletedPost[0], BadRequestException, 'Post not exist');
 
-    if (deletedPost[0])
-      return {
-        message: 'Updated Successfully ',
-      };
+    return {
+      message: 'Post Deleted Successfully ',
+    };
   }
 
   async updatePost(
@@ -100,10 +100,8 @@ export class PostService {
       },
     );
     CheckExisting(updatedPost[0], BadRequestException, 'Post not exist');
-
-    if (updatedPost[0])
-      return {
-        message: 'Updated Successfully ',
-      };
+    return {
+      message: 'Updated Successfully ',
+    };
   }
 }

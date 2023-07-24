@@ -5,7 +5,9 @@ import {
   DataType,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
+import { Comment } from 'src/modules/comment/entities/comment.entity';
 import { User } from 'src/modules/user/entities/user.entity';
 
 @Table({
@@ -35,11 +37,14 @@ export class Post extends Model {
   })
   content: string;
 
+  @HasMany(() => Comment)
+  comments: Comment[];
+
   @Column({
     type: DataType.DATE,
   })
   deletedAt: Date;
-  
+
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,

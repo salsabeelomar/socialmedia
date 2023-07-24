@@ -17,7 +17,7 @@ import { PostService } from './post.service';
 import { PostType } from './dto/post.dto';
 import { User } from 'src/common/decorator/user.decorator';
 import { Public } from 'src/common/decorator/public.decorator';
-import { TransactionInterceptor } from 'src/common/interceptor/transcation.interceptor';
+import { TransactionInterceptor } from 'src/common/interceptor/Transaction.interceptor';
 import { TransactionDeco } from 'src/common/decorator/transaction.decorator';
 import { Transaction } from 'sequelize';
 
@@ -47,7 +47,6 @@ export class PostController {
   }
 
   @Delete(':postId')
-  @HttpCode(HttpStatus.NO_CONTENT)
   async deletePost(
     @Param('postId') postId: number,
     @User() { id }: { id: number },

@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { SignInType, SignUpType } from './dto';
 import { Public } from 'src/common/decorator/public.decorator';
-import { TransactionInterceptor } from 'src/common/interceptor/transcation.interceptor';
+import { TransactionInterceptor } from 'src/common/interceptor/Transaction.interceptor';
 import { TransactionDeco } from 'src/common/decorator/transaction.decorator';
 import { Transaction } from 'sequelize';
 @Public()
